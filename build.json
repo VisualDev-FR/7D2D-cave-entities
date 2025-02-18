@@ -1,0 +1,9 @@
+{
+    "name": "TheDescent-cave-entities",
+    "csproj": "cave-entities.csproj",
+    "include": [
+        "ModConfig.xml",
+        "ModInfo.xml",
+        "Config"
+    ]
+}
