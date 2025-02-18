@@ -101,4 +101,15 @@ public class ModConfig
             int.Parse(values[2].Trim())
         );
     }
+
+    public static BlockValue GetBlockValue(string blockName)
+    {
+        if (Block.nameToBlock.TryGetValue(blockName, out var block))
+        {
+            return block.ToBlockValue();
+        }
+
+        throw new InvalidDataException($"block '{blockName}' does not exist. (case maybe invalid)");
+    }
+
 }

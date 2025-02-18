@@ -16,7 +16,7 @@ public class Logging
     {
         public LoggingLevel loggingLevel = LoggingLevel.DEBUG;
 
-        public string loggerName = "Cave";
+        public string loggerName = "cave-entities";
 
         public Logger(string name, LoggingLevel level = LoggingLevel.DEBUG)
         {
