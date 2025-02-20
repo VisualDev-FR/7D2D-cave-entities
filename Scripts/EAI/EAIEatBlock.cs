@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class EAIEatBlock : EAIBase
 {
-    private static BlockValue zombieFoodPlaceholder => ModConfig.GetBlockValue("zombieFoodPlaceholder");
-
-    private static BlockValue bloodDecorPlaceholder => ModConfig.GetBlockValue("bloodDecorPlaceholder");
+    private static BlockValue bloodDecorPlaceholder => BlockUtils.GetBlockValue("bloodDecorPlaceholder");
 
     private struct BlockTargetData
     {
@@ -148,7 +146,7 @@ public class EAIEatBlock : EAIBase
         float num2 = entityHeight - 0.05f;
         float sqrMaxDist = num2 * num2;
 
-        float sqrTargetDistance = ModUtils.SqrEuclidianDist(theEntity.position, entityTarget.GetBellyPosition());
+        float sqrTargetDistance = FastMath.SqrEuclidianDist(theEntity.position, entityTarget.GetBellyPosition());
         float dy = entityTargetPos.y - theEntity.position.y;
         float dyAbs = Utils.FastAbs(dy);
 
@@ -266,7 +264,6 @@ public class EAIEatBlock : EAIBase
 
     private BlockTargetData FindBlockToEat()
     {
-        var timer = ModUtils.StartTimer();
         var world = GameManager.Instance.World;
         var queue = new Queue<Vector3i>();
         var visited = new HashSet<Vector3i>();
@@ -286,7 +283,7 @@ public class EAIEatBlock : EAIBase
 
             visited.Add(currentPos);
 
-            foreach (var offset in ModUtils.offsetsNoVertical)
+            foreach (var offset in BFSUtils.offsetsNoVertical)
             {
                 Vector3i neighborPos = currentPos + offset;
 
@@ -294,7 +291,7 @@ public class EAIEatBlock : EAIBase
                 bool canExtend =
                        !visited.Contains(neighborPos)
                     && (block == 0 || block > 255)
-                    && ModUtils.IsTerrain(world.GetBlock(neighborPos + Vector3i.down));
+                    && BlockUtils.IsTerrain(world.GetBlock(neighborPos + Vector3i.down));
 
                 if (!canExtend)
                     continue;
